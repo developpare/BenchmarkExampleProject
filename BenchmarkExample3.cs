@@ -3,10 +3,9 @@
 namespace BenchmarkExampleProject
 {
     [MemoryDiagnoser]
-    [RPlotExporter]
-    public class BenchmarkExample2
+    public class BenchmarkExample3
     {
-        [Params(30, 200, 1000)]
+        [Params(200, 1000)]
         public int N;
 
         public string[] ArrayOfElements;
@@ -37,30 +36,28 @@ namespace BenchmarkExampleProject
 
                 ArrayOfElements[i] = Guid.NewGuid().ToString("N");
                 sortedList.Add(ArrayOfElements[i], ArrayOfElements[i]);
-
             }
         }
 
         [Benchmark(Baseline = true)]
-        public void NoSortedArray()
+        [Arguments("1TEST")]
+        [Arguments("2TEST")]
+        [Arguments("3TEST")]
+        [Arguments("4TEST")]
+        public void NoSortedArray(string value)
         {
-            for (int SearchableElementsIndex = 1; SearchableElementsIndex <= SearchableElements; SearchableElementsIndex++)
-            {
-                var value = SearchableElementsIndex + "TEST";
-
-                Array.Find(ArrayOfElements, x => x.Equals(value));
-            }
+            Array.Find(ArrayOfElements, x => x.Equals(value));
         }
         [Benchmark]
-        public void UsingSortedList()
+        [Arguments("1TEST")]
+        [Arguments("2TEST")]
+        [Arguments("3TEST")]
+        [Arguments("4TEST")]
+        public void UsingSortedList(string value)
         {
-            for (int SearchableElementsIndex = 1; SearchableElementsIndex <= SearchableElements; SearchableElementsIndex++)
-            {
-                var value = SearchableElementsIndex + "TEST";
-
-                sortedList.TryGetValue(value, out var result);
-            }
+            sortedList.TryGetValue(value, out var result);
         }
+
 
 
 
